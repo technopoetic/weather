@@ -22,3 +22,4 @@ A couple of notes on my interpretation of these criteria:
 
     * I decided to go with the idea of a flat file for a data source, but I can't figure out how to make it go along with the build artifacts.  You may have to copy the `weather-data.txt` file into the current working directory to get it working.
     * Is it really that hard to serialize JSON in C#?  Or did I just miss something?
+    * I'm not handling any exceptions.  That's one of the first things I'd fix on a Refactor.
