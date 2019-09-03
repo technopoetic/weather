@@ -1,4 +1,3 @@
-Month,Day of Month,Julian Day,Normal Max Temp,Normal MinTemp,Normal Precipitation
 January,1,1,50.6,30.9,0.1
 January,2,2,50.5,30.8,0.1
 January,3,3,50.4,30.8,0.11
