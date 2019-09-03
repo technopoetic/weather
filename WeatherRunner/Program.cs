@@ -11,28 +11,28 @@ namespace WeatherRunner
         static int Main(string[] args)
         {
             var _weatherService = new WeatherService();
+            DateTime enteredDate;
 
             // This would be a great place for a CLI Parsing library.
             if (args.Length < 1)
             {
-                System.Console.WriteLine("Please enter a Date argument.");
-                System.Console.WriteLine("Usage: WeatherRunner <date>");
-                return 1;
+                enteredDate = DateTime.Now;
             }
-
-            DateTime enteredDate;
-            bool test = DateTime.TryParse(args[0], out enteredDate);
-            if (test == false)
+            else
             {
-                System.Console.WriteLine("Please enter a Date argument.");
-                System.Console.WriteLine("Usage: WeatherRunner <date>");
-                return 1;
+                bool test = DateTime.TryParse(args[0], out enteredDate);
+                if (test == false)
+                {
+                    System.Console.WriteLine("Please enter a Date argument.");
+                    System.Console.WriteLine("Usage: WeatherRunner <date>");
+                    return 1;
+                }
             }
 
+            // Same here.  This seems awfully verbose just to write some JSON to the console.
             DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(WeatherDate));
             MemoryStream ms = new MemoryStream();
             js.WriteObject(ms, _weatherService.GetWeather(enteredDate));
-            // Console.WriteLine(_weatherService.GetWeather(enteredDate).Serialize());
             ms.Position = 0;
             StreamReader sr = new StreamReader(ms);
             Console.WriteLine(sr.ReadToEnd());
