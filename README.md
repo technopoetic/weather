@@ -1,6 +1,7 @@
 # Weather coding challenge
 
 by: Richard Hibbitts
+
 Designed and developed on Debian 9 Linux, using Vim, by a Python developer who's never seen C# and doesn't even own a Windows box.
 
 ## Background
