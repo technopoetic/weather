@@ -1,23 +1,44 @@
 ﻿using System;
 using Weather;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.IO;
 
 namespace WeatherRunner
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            Console.WriteLine("Loading...");
-            // var _filename = "weather_data.csv"
             var _weatherService = new WeatherService();
 
-            while(true){
-                Console.WriteLine("Enter a date to view the weather for that day.");
-                var enteredDate = Console.ReadLine();
-                Console.WriteLine($"You entered {enteredDate}.");
-
-                Console.WriteLine(_weatherService.Weather);
+            // This would be a great place for a CLI Parsing library.
+            if (args.Length < 1)
+            {
+                System.Console.WriteLine("Please enter a Date argument.");
+                System.Console.WriteLine("Usage: WeatherRunner <date>");
+                return 1;
             }
+
+            DateTime enteredDate;
+            bool test = DateTime.TryParse(args[0], out enteredDate);
+            if (test == false)
+            {
+                System.Console.WriteLine("Please enter a Date argument.");
+                System.Console.WriteLine("Usage: WeatherRunner <date>");
+                return 1;
+            }
+
+            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(WeatherDate));
+            MemoryStream ms = new MemoryStream();
+            js.WriteObject(ms, _weatherService.GetWeather(enteredDate));
+            // Console.WriteLine(_weatherService.GetWeather(enteredDate).Serialize());
+            ms.Position = 0;
+            StreamReader sr = new StreamReader(ms);
+            Console.WriteLine(sr.ReadToEnd());
+            sr.Close();
+            ms.Close();
+            return 0;
         }
 
     }
